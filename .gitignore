@@ -5,7 +5,10 @@ resource/cache/tmpl/*
 resource/cache/.mincache
 resource/database/*
 public/css/min/*.css
+public/css/*.css
+public/css/*.less
 public/js/min/*.js
+public/js/*.js
 public/uploads/*
 .DS_Store
 *.log
