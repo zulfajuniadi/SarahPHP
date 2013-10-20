@@ -38,7 +38,7 @@ class User
         return null;
     }
 
-    static function Create($username, $password, $cpassword) {
+    static function Create($username, $password, $cpassword, $additionalData = array()) {
         $user = false;
         $checkDb = Users::filterOne('username', $username);
         if(is_null($checkDb) && $username !== '' && $password === $cpassword) {
@@ -46,6 +46,9 @@ class User
             $user->username = $username;
             $user->password = md5($password);
             $user->groups = [];
+            foreach ($additionalData as $key => $value) {
+                $user->$key = $value;
+            }
             $user->save();
             return $user->fetch();
         }
