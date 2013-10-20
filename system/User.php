@@ -4,7 +4,7 @@ class User
 {
     static function get($item = null) {
         $userData = Session::get('_user');
-        return (isset($userData[$item])) ? $userData[$item] : '';
+        return ($item !== null && isset($userData[$item])) ? $userData[$item] : $userData;
     }
 
     static function belongsTo($name, $user = 'me') {
