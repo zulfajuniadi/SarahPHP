@@ -4,6 +4,11 @@ resource/cache/js/*
 resource/cache/tmpl/*
 resource/cache/.mincache
 resource/database/*
+resource/views/*
+resource/session/*
+resource/poll/*
+resource/logs/*
+resource/database/*
 public/css/min/*.css
 public/css/*.css
 public/css/*.less
