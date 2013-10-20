@@ -29,20 +29,13 @@ class User
         }
     }
 
-    static function Login($username, $password, $success = null, $error = null) {
+    static function Login($username, $password) {
         $user = Users::filterOne('username', $username);
         if($user !== null && $user->password === md5($password)) {
             Session::Set('_user', $user->fetch());
-            if(is_callable($success)) {
-                return $success($user);
-            }
             return $user;
-        } else {
-            if(is_callable($error)) {
-                return $error();
-            }
-            return false;
         }
+        return null;
     }
 
     static function Create($username, $password, $cpassword) {
