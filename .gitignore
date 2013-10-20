@@ -3,7 +3,7 @@ resource/cache/css/*
 resource/cache/js/*
 resource/cache/tmpl/*
 resource/cache/.mincache
-resource/database/
+resource/database/*
 public/css/min/*.css
 public/js/min/*.js
 public/uploads/*
