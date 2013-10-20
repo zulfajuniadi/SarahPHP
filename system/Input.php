@@ -47,7 +47,7 @@ class Input
         if(json_last_error() !== JSON_ERROR_NONE || $input === '') {
             $data = $_POST;
         }
-        if($rehydrate)
+        if($data)
             $data = self::_rehydrate($data);
         if($item !== null) {
             if(isset($data[$item])) {
