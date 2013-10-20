@@ -11,3 +11,4 @@ public/js/min/*.js
 vendor/underscore/underscore.php/
 resource/database/
 public/uploads/*
+application/*
