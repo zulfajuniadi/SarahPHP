@@ -1,0 +1,13 @@
+
+resource/cache/css/*
+resource/cache/js/*
+resource/cache/tmpl/*
+resource/cache/.mincache
+.DS_Store
+.old
+public/css/min/*.css
+public/js/min/*.js
+*.log
+vendor/underscore/underscore.php/
+resource/database/
+public/uploads/*

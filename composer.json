@@ -1,0 +1,14 @@
+{
+    "name": "zulfajuniadi/sarahphp",
+    "description": "Simple Applciation Stack",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zulfa Juniadi",
+            "email": "zulfajuniadi@gmail.com"
+        }
+    ],
+    "require": {
+
+    }
+}
