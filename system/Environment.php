@@ -8,12 +8,15 @@ class Environment
 
     static function add($environment, $detector, $callback = null)
     {
+        $isCurrentEnv = false;
+
         if(!is_callable($detector)) {
             throw new Exception('Second argument for Environment::add must be a callable function.');
         }
 
         if($detector()) {
             self::$environment = $environment;
+            $isCurrentEnv = true;
         }
 
         if(!is_array(self::$environments))
@@ -21,7 +24,7 @@ class Environment
 
         self::$environments[] = $environment;
 
-        if(is_callable($callback)){
+        if(is_callable($callback) && $isCurrentEnv){
             return $callback();
         } else {
             return true;
