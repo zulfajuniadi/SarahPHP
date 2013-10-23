@@ -3,7 +3,7 @@
 class View
 {
     static $data;
-    static function render($templateFilePath, $data = array(), $toString = FALSE) {
+    static function render($templateFilePath, $data = array(), $toString = true) {
         if(is_array(self::$data)){
             extract(self::$data);
         }
@@ -23,5 +23,10 @@ class View
             self::$data = array();
         }
         self::$data = array_merge(self::$data, $data);
+    }
+
+    static function layout($layoutFile)
+    {
+
     }
 }

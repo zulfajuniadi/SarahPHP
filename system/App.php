@@ -197,7 +197,7 @@ class App
 
         if(is_callable($handler)){
             if($callHandler)
-                $handler();
+                echo $handler();
             else
                 return true;
         } else {
