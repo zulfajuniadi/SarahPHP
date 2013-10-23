@@ -9,17 +9,17 @@ require_once('../vendor/autoload.php');
 
 /*  Register Autoloader */
 spl_autoload_register(function($class) {
-    $folder = 'system';
-    $folder2 = 'libraries';
+    $systemFolder = 'system';
+    $librariesFolder = 'libraries';
     $file =  $class . '.php';
-    $fileName = '..' . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $class . '.php';
-    $fileName2 = '..' . DIRECTORY_SEPARATOR . $folder2 . DIRECTORY_SEPARATOR . $class . '.php';
-    if(file_exists($fileName)) {
-        require_once $fileName;
-        Profiler::fileLoaded($folder . DIRECTORY_SEPARATOR . $file);
-    } else if (file_exists($fileName2)) {
-        require_once $fileName2;
-        Profiler::fileLoaded($folder2 . DIRECTORY_SEPARATOR . $file);
+    $systemFile = '..' . DIRECTORY_SEPARATOR . $systemFolder . DIRECTORY_SEPARATOR . $class . '.php';
+    $libraryFile = '..' . DIRECTORY_SEPARATOR . $librariesFolder . DIRECTORY_SEPARATOR . $class . '.php';
+    if(file_exists($systemFile)) {
+        require_once $systemFile;
+        Profiler::fileLoaded($systemFolder . DIRECTORY_SEPARATOR . $file);
+    } else if (file_exists($libraryFile)) {
+        require_once $libraryFile;
+        Profiler::fileLoaded($librariesFolder . DIRECTORY_SEPARATOR . $file);
     }
 });
 
