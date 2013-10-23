@@ -1,4 +1,5 @@
 application/*.php
+!application/example.php
 !resource/cache/css/.gitignore
 !resource/cache/js/.gitignore
 !resource/cache/tmpl/.gitignore
