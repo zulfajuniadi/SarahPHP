@@ -10,8 +10,14 @@ class Poller
     static $client;
     static $longPollSleep = 100; // in ms
     static $longPollKeepalive = 30; // in seconds
+    static $backEnd = 'fmt';
 
-    static function create(){
+    static function create($options = array()){
+
+        foreach ($options as $key => $value) {
+            self::$key = $value;
+        }
+
         App::xhrget('/sarahphp/poller/long', function(){
             $collections = Input::get();
             $now = time();
@@ -64,42 +70,54 @@ class Poller
     }
 
     static function setUpdated($collectionName) {
-        try {
-            if(!class_exists('Predis\Client')) {
-                throw new Exception("Error Processing Request", 1);
-            }
-            if(self::$client) {
-                $redis = self::$client;
-            } else {
-                $redis = self::$client = new Predis\Client();
-            }
-            $redis->set('MTIME:' . $collectionName, time());
+        if(self::$backEnd === 'fmt') {
             @touch('../resource/poll/' . $collectionName);
-        } catch (Exception $e) {
-            @touch('../resource/poll/' . $collectionName);
+        } else {
+            try {
+                if(!class_exists('Predis\Client')) {
+                    throw new Exception("Error Processing Request", 1);
+                }
+                if(self::$client) {
+                    $redis = self::$client;
+                } else {
+                    $redis = self::$client = new Predis\Client();
+                }
+                $redis->set('MTIME:' . $collectionName, time());
+                @touch('../resource/poll/' . $collectionName);
+            } catch (Exception $e) {
+                @touch('../resource/poll/' . $collectionName);
+            }
         }
+        clearstatcache();
     }
 
     static function checkUpdated($collectionName) {
-        try {
-            if(self::$client) {
-                $redis = self::$client;
-            } else {
-                $redis = self::$client = new Predis\Client();
-            }
-            $fmt = $redis->get('MTIME:' . $collectionName);
-            if($fmt === NULL || $fmt === '0') {
-                if(!file_exists('../resource/poll/' . $collectionName)) {
-                    self::setUpdated($collectionName);
+        if(self::$backEnd === 'fmt') {
+            if(!file_exists('../resource/poll/' . $collectionName))
+                @touch('../resource/poll/' . $collectionName);
+            clearstatcache();
+            $fmt = filemtime('../resource/poll/' . $collectionName);
+        } else {
+            try {
+                if(self::$client) {
+                    $redis = self::$client;
+                } else {
+                    $redis = self::$client = new Predis\Client();
                 }
+                $fmt = $redis->get('MTIME:' . $collectionName);
+                if($fmt === NULL || $fmt === '0') {
+                    if(!file_exists('../resource/poll/' . $collectionName)) {
+                        self::setUpdated($collectionName);
+                    }
+                    $fmt = filemtime('../resource/poll/' . $collectionName);
+                    clearstatcache();
+                    $redis->set('MTIME:' . $collectionName, $fmt);
+                }
+            } catch (Exception $e) {
+                Logger::log('Redis Failed : GET');
                 $fmt = filemtime('../resource/poll/' . $collectionName);
                 clearstatcache();
-                $redis->set('MTIME:' . $collectionName, $fmt);
             }
-        } catch (Exception $e) {
-            Logger::log('Redis Failed : GET');
-            $fmt = filemtime('../resource/poll/' . $collectionName);
-            clearstatcache();
         }
         return $fmt;
     }
@@ -108,7 +126,7 @@ class Poller
         $model = PollerModel::all()->filterOne('name', $collectionName);
         if($model === null) {
             $model = PollerModel::create();
-            $model->name = $modelName;
+            $model->name = $collectionName;
             $model->lastRequest = '';
             $model->save();
         }
@@ -122,7 +140,7 @@ class Poller
             $model = self::_getModel($collectionName)->fetch();
             $data = array('collection' => $collectionName::filter('*', function($item){
                 $params = Input::params();
-                return strtotime($item['updatedAt']) > $params[0] || strtotime($item['deletedAt']) > $params[0] || strtotime($item['insertedAt']) > $params[0];
+                return strtotime($item['updatedAt']) > $params[0] || strtotime($item['deletedAt']) > $params[0] || strtotime($item['createdAt']) > $params[0];
             })->fetch('array'), 'rid' => $model['lastRequest']);
 
             App::XHR(200,'OK',$data);
@@ -162,9 +180,9 @@ class Poller
         });
 
         App::xhrdelete('/sarahphp/poller/' . $collectionName .'/:any', function() use ($collectionName){
-            $id = Input::params();
+            $params = Input::params();
             $deleteData = Input::delete();
-            $data = $collectionName::find($id);
+            $data = $collectionName::find($params[0]);
             $data->deletedAt = date('c');
             $data->save();
 
