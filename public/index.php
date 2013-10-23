@@ -2,8 +2,6 @@
 
 require_once('../system/Profiler.php');
 
-date_default_timezone_set('Asia/Kuala_Lumpur');
-
 /* Autoload all vendors */
 require_once('../vendor/autoload.php');
 
@@ -29,6 +27,9 @@ define('BASEURL', Uri::baseUrl());
 
 /* Load Helper Functions */
 Filesystem::loadFile('SYS/Helpers');
+
+/* Load the startup file */
+Filesystem::loadFile('../start.php');
 
 /* Load all in Application Folder */
 Filesystem::LoadFolder('APP');
