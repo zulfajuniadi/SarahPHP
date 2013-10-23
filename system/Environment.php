@@ -33,7 +33,7 @@ class Environment
 
     static function is($environment, $callback = null)
     {
-        if(!isset(self::$environment)) {
+        if(!isset(self::$environments)) {
             throw new Exception('Setup environment using Environment::add(string $env, function $detector) first!');
         }
 
