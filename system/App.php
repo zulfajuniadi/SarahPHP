@@ -127,8 +127,8 @@ class App
             $clientMessage = HTTPMessage($code);
         }
 
-        header($_SERVER["SERVER_PROTOCOL"]." {$code} {$message}");
-        header("Status: {$code} {$message}");
+        header($_SERVER["SERVER_PROTOCOL"]." {$code}");
+        header("Status: {$code}");
 
         echo json_encode(array(
             'code'    => $code,
