@@ -1,5 +1,5 @@
-<?php View::render('partials/header'); ?>
+<?=View::render('header') ?>
 
-<div id="outlet"></div>
+<div id="outlet">Outlet <?=$data?>!</div>
 
-<?php View::render('partials/footer'); ?>
+<?=View::render('footer') ?>

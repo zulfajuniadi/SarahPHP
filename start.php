@@ -45,11 +45,22 @@ Environment::is('production', function(){
 /* Setup the application Models */
 
 /*
-
     class Tasks extends Model
     {
         static $tableName = 'tasks';
     }
+*/
 
 
- */
+/* Uncomment to use SarahPHP Poller */
+
+/*
+    Poller::create();
+*/
+
+
+/* Uncomment to add a model to SarahPHP Poller */
+
+/*
+    Poller::add('Tasks');
+*/
