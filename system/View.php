@@ -19,10 +19,20 @@ class View
 
     static function assign(array $data)
     {
-        if(!is_array($self::$data)) {
+        if(!is_array(self::$data)) {
             self::$data = array();
         }
         self::$data = array_merge(self::$data, $data);
+    }
+
+    static function globals($param, closure $closure)
+    {
+        if(!is_array(self::$data)) {
+            self::$data = array();
+        }
+        if(is_callable($closure)){
+            self::$data[$param] = $closure();
+        }
     }
 
     static function layout($layoutFile)
