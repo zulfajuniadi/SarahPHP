@@ -172,6 +172,7 @@ class App
 
 
         $handler = null;
+        $regex_matches = null;
 
         if (isset(self::$paths[$requestedPath])) {
             $handler = self::$paths[$requestedPath];
@@ -181,7 +182,7 @@ class App
             $tokens = array(
                 ':alpha' => '([a-zA-Z]+)',
                 ':number' => '([0-9]+)',
-                ':alphanum'  => '([a-zA-Z0-9-]+)',
+                ':alphanum'  => '([a-zA-Z0-9\-]+)',
                 ':any'  => '(.*?)',
             );
             foreach (self::$paths as $path => $handler_name) {
@@ -189,7 +190,7 @@ class App
                 if (preg_match('#^/?' . $pattern . '/?$#', $requestedPath, $matches)) {
                     self::$_currentPath = $path;
                     $handler = $handler_name;
-                    $regex_matches = $matches;
+                    $regex_matches = $matches[1];
                     break;
                 }
             }
@@ -197,7 +198,7 @@ class App
 
         if(is_callable($handler)){
             if($callHandler)
-                echo $handler();
+                echo $handler($regex_matches);
             else
                 return true;
         } else {
