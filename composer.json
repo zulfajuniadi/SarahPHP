@@ -9,6 +9,6 @@
         }
     ],
     "require": {
-
+        "rain/raintpl": "3.1.0"
     }
 }

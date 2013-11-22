@@ -16,7 +16,8 @@ public/css/*.less
 public/js/min/*.js
 public/js/*.js
 public/uploads/*
-public/SarahJS/*
 .DS_Store
 *.log
 .gitmodules
+composer.lock
+vendor/*
