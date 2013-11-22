@@ -20,4 +20,4 @@ public/uploads/*
 *.log
 .gitmodules
 composer.lock
-vendor/*
+vendor/**/*

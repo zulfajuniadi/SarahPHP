@@ -8,7 +8,20 @@
             "email": "zulfajuniadi@gmail.com"
         }
     ],
+    "repositories": [{
+        "type": "package",
+        "package": {
+            "name": "zulfajuniadi/bakulpasar",
+            "version": "master",
+            "source": {
+                "url": "https://github.com/zulfajuniadi/BakulPasar",
+                "type": "git",
+                "reference": "master"
+            }
+        }
+    }],
     "require": {
-        "rain/raintpl": "3.1.0"
+        "rain/raintpl": "3.1.0",
+        "zulfajuniadi/bakulpasar" : "dev-master"
     }
 }
